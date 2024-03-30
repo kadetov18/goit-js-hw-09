@@ -72,8 +72,12 @@ const galleryMarkup = createMarkup(images);
 const container = document.querySelector('.gallery');
 
 container.insertAdjacentHTML('beforeend', galleryMarkup);
+const lightbox = new SimpleLightbox('.gallery a', {
+  captionDelay: 250,
+  captionsData: 'alt',
+});
 
-container.addEventListener('click', handleImageClick);
+lightbox.show();
 
 function createMarkup(arr) {
   return arr
@@ -86,26 +90,4 @@ function createMarkup(arr) {
   `
     )
     .join('');
-}
-
-function handleImageClick(event) {
-  if (event.target === event.currentTarget) {
-    return;
-  }
-
-  const currentImage = event.target.closest('.img-item');
-  const imageAlt = currentImage.querySelector('img').alt;
-
-  const imageDescription = imageAlt;
-  const currentImageData = images.find(
-    image => image.description === imageDescription
-  );
-  const imageUrl = currentImageData.original;
-
-  const lightbox = new SimpleLightbox('.gallery a', {
-    captionDelay: 250,
-    captionsData: 'alt',
-  });
-
-  lightbox.show();
 }
